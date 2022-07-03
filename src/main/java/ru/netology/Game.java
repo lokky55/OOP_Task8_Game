@@ -5,26 +5,28 @@ import java.util.Collection;
 
 public class Game {
 
-    private Collection<Player> players; // Создаем коллекцию игрок
+    private Collection<Player> players; // Создаем коллекцию игроков
 
-    public Game() {                      // создаю новый список в классе
+    public Game() {                     // создаем новый список в классе
         this.players = new ArrayList<>();
-    }
-
-    public void register(Player player) {
-        player.isRegistered = true;
     }
 
     public Collection<Player> findAll() {
         return players;
     }
 
-    public Player findByName(String playerName) {
+    public void add(Player product) {
+        players.add(product);
+    }
+
+    public void register(Player player) {
+        player.isRegistered = true;
+    }
+
+    public Player findByName(String name) {
         for (Player player : players) {
-            if (player.getName() == playerName) {
+            if (player.getName() == name) {
                 return player;
-            } else {
-                throw new NotRegisteredException("Player: " + playerName + " is not registered!");
             }
         }
         return null;
@@ -33,13 +35,17 @@ public class Game {
     public int round(String playerName1, String playerName2) {
         Player player1 = findByName(playerName1);
         Player player2 = findByName(playerName2);
-        if (player1.isRegistered && player2.isRegistered) {
-            if (player1.getStrength() > player2.getStrength()) {
-                return 1;
-            }
-            if (player1.getStrength() < player2.getStrength()) {
-                return 2;
-            }
+        if (!player1.isRegistered) {
+            throw new NotRegisteredException("Player: " + playerName1 + " is not registered!");
+        }
+        if (!player2.isRegistered) {
+            throw new NotRegisteredException("Player: " + playerName2 + " is not registered!");
+        }
+        if (player1.getStrength() > player2.getStrength()) {
+            return 1;
+        }
+        if (player1.getStrength() < player2.getStrength()) {
+            return 2;
         }
         return 0;
     }
