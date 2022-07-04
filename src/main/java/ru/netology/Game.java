@@ -25,7 +25,7 @@ public class Game {
 
     public Player findByName(String name) {
         for (Player player : players) {
-            if (player.getName() == name) {
+            if (player.getName().equals(name)) { // Строки сравниваются через equals
                 return player;
             }
         }
